@@ -15,7 +15,7 @@ traits_data <- read.csv("Data/traits_data.csv") %>%
          log_dh = log(dh_um),
          log_VD = log(VD_nomm2),
          log_DApit = log(DApit_um),
-         id = paste(code,site,stage,X))
+         id = paste(code,site,stage,row_id))
 
 # ========== Fig 1: ONTOGENETIC TRAIT SHIFTS ==========
 
@@ -44,7 +44,7 @@ plot_shift <- function(Trait, log, col, ylab){
   
   ggplot() +
     geom_path(data=data, aes(x=stage, y=get(Trait), group=pop_id),
-              color="gray40", size=.2) +
+              color="gray60", size=.2) +
     geom_path(data=means, aes(x=stage, y=means, group=group),
               color = col, size = 1) +
     geom_point(data=data, aes(x = stage, y = get(Trait)),
@@ -176,8 +176,8 @@ plot_loadings <- function(loadings_summary){
   ggplot(loadings_summary) +
     geom_hline(yintercept = 0, color="gray90") +
     geom_vline(xintercept = 0, color="gray90") +
-    geom_segment(color="red", arrow = arrow(length=unit(.05, 'in')),
-                 linewidth=0.25,
+    geom_segment(color="#DDAA33", arrow = arrow(length=unit(.05, 'in')),
+                 linewidth=0.5,
                  aes(x=0, y=0, xend=Comp1.Median, yend=Comp2.Median)) +
     geom_linerange(aes(ymin=Comp2.Q02.5, ymax=Comp2.Q97.5,
                        x=Comp1.Median), linewidth=0.1) +
@@ -189,8 +189,8 @@ plot_loadings <- function(loadings_summary){
                        y=Comp2.Median), linewidth=0.5) +
     theme_classic() +
     coord_equal(ratio=1, xlim=c(-1,1), ylim=c(-1,1)) +
-    theme(axis.text = element_text(colour = "black", size=10),
-          axis.title = element_text(colour = "black", size=12),
+    theme(axis.text = element_text(colour = "black", size=9),
+          axis.title = element_text(colour = "black", size=10),
           line = element_line(linewidth = 0.25)) +
     # geom_text(aes(x=Comp1.Median+.1, y=Comp2.Median+.1,
     #               label=Trait), size=3) +
@@ -235,8 +235,8 @@ plot_scores <- function(scores, loadings, palette){
     #           aes(x=Comp1.Median*6, y=Comp2.Median*6, label=Trait)) +
     theme_classic() +
     coord_equal(ratio=1, ylim=ylimits, xlim=xlimits) +
-    theme(axis.text = element_text(colour = "black", size=10),
-          axis.title = element_text(colour = "black", size=12),
+    theme(axis.text = element_text(colour = "black", size=9),
+          axis.title = element_text(colour = "black", size=10),
           legend.position = "none",
           line = element_line(linewidth = 0.25)) +
     xlab("Component 1") + ylab("Component 2")

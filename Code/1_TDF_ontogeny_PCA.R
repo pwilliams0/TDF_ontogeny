@@ -4,6 +4,7 @@
 library(tidyverse)
 library(nimble)
 library(Matrix)
+library(matrixStats)
 library(MASS)
 
 # ========== LOAD FULL TRAIT DATASET ==========
@@ -17,7 +18,7 @@ traits_data <- read.csv("Data/traits_data.csv") %>%
            log_dh = log(dh_um),
            log_VD = log(VD_nomm2),
            log_DApit = log(DApit_um),
-           id = paste(code,site,stage,X))
+           id = paste(code,site,stage,row_id))
 
 # ========== RUN PCA WTIH VARIMAX ==========
 
@@ -130,7 +131,7 @@ do_varimax <- function(loadings, n_axes){
 loadings.varimax <- lapply(X=loadings.original,
                            FUN=do_varimax, n_axes=n_axes)
 
-# Identify trait with highest mean loading on each axis
+# Identify trait with highest median loading on each axis
 axis_traits <- c()
 n_samp <- length(loadings.varimax)
 tmp <- matrix(ncol=V, nrow=n_samp)
@@ -139,7 +140,7 @@ for(j in 1:n_axes){
   for(i in 1:n_samp){
     tmp[i,] <- abs(loadings.varimax[[i]][,j])
   }
-  axis_traits[j] <- names(sort(colMeans(tmp),
+  axis_traits[j] <- names(sort(colMedians(tmp),
                                decreasing=TRUE))[1]
 }
 
