@@ -24,3 +24,5 @@
 
 ## Data
 - The file "traits_data.csv" is available in the Deep Blue Data repository at: https://doi.org/10.7302/kjr3-d129.
+
+## [Published PDF](Williams_etal_2026_NewPhytol.pdf)
